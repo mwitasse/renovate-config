@@ -1,0 +1,70 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "assignees": [
+    "mwitasse"
+  ],
+  "labels": [
+    "renovate"
+  ],
+  "dependencyDashboard": true,
+  "hostRules": [
+    {
+      "matchHost": "docker.io",
+      "concurrentRequestLimit": 2,
+      "username": "mwitassek",
+      "password": "{{ secrets.DOCKERHUB_TOKEN }}"
+    },
+    {
+      "matchHost": "ghcr.io",
+      "concurrentRequestLimit": 5
+    }
+  ],
+  "docker-compose": {
+    "fileMatch": [
+      "(^|/)[^/]+/docker-compose\\.ya?ml$"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Individual PRs per image with service info",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchFileNames": [
+        "*/docker-compose.yml",
+        "*/docker-compose.yaml"
+      ],
+      "groupName": "{{{replace '^([^/]+)/.*' '$1' packageFileDir}}} - {{depName}}",
+      "additionalBranchPrefix": "{{{replace '^([^/]+)/.*' '$1-' packageFileDir}}}",
+      "commitMessagePrefix": "🐳 [{{{replace '^([^/]+)/.*' '$1' packageFileDir}}}]",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageAction": "{{#if isPinDigest}}{{currentDigestShort}} → {{else}}{{#if isSingleVersion}}{{currentVersion}} → {{else}}{{currentValue}} → {{/if}}{{/if}}",
+      "commitMessageExtra": "{{#if isPinDigest}}{{newDigestShort}}{{else}}{{#if isSingleVersion}}{{newVersion}}{{else}}{{newValue}}{{/if}}{{/if}}"
+    },
+    {
+      "description": "Auto-merge minor and patch updates for Docker images",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    }
+  ],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 0,
+  "semanticCommits": "disabled",
+  "separateMinorPatch": true,
+  "separateMajorMinor": true
+}
