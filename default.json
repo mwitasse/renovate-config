@@ -40,8 +40,8 @@
       "groupName": "{{{replace '^([^/]+)/.*' '$1' packageFileDir}}} - {{depName}}",
       "additionalBranchPrefix": "{{{replace '^([^/]+)/.*' '$1-' packageFileDir}}}",
       "commitMessagePrefix": "🐳 [{{{replace '^([^/]+)/.*' '$1' packageFileDir}}}]",
-      "commitMessageTopic": "{{depName}}:{{#if isPinDigest}}{{currentDigestShort}}{{else}}{{#if isSingleVersion}}{{currentVersion}}{{else}}{{currentValue}}{{/if}}{{/if}}",
-      "commitMessageAction": "→",
+      "commitMessageTopic": " ",
+      "commitMessageAction": "{{depName}}:{{#if isPinDigest}}{{currentDigestShort}}{{else}}{{#if isSingleVersion}}{{currentVersion}}{{else}}{{currentValue}}{{/if}}{{/if}} →",
       "commitMessageExtra": "{{depName}}:{{#if isPinDigest}}{{newDigestShort}}{{else}}{{#if isSingleVersion}}{{newVersion}}{{else}}{{newValue}}{{/if}}{{/if}}"
     },
     {
